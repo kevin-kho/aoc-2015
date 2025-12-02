@@ -84,38 +84,33 @@ func countNiceStrings(stringArr []string) int {
 }
 
 func appearsTwiceNoOverlap(str string) bool {
-	seenPairs := make(map[string][2]int) // [idx, idx]
+	// seenPairs := make(map[string][2]int) // [idx, idx]
+	var prefixStr string
 
 	for i := 1; i < len(str); i++ {
 		char0 := string(str[i-1])
 		char1 := string(str[i])
-		if val, ok := seenPairs[char0+char1]; ok {
-			if val[1] != i-1 {
-				return true
-			}
+
+		if len(prefixStr) > 0 && strings.Contains(prefixStr[:i-1], char0+char1) {
+			return true
 		}
-		seenPairs[char0+char1] = [2]int{i - 1, i}
+
+		// Add both chars only for the first loop
+		// for i > 2, char0 is an overlap character
+		if i == 1 {
+			prefixStr += char0
+		}
+		prefixStr += char1
+
 	}
 
 	return false
 }
 
 func charBetween(str string) bool {
-	charIdx := make(map[string]int) // keeps track of the last known index
-	for i, b := range str {
-		if j, ok := charIdx[string(b)]; ok {
-			if i-j == 2 {
-				return true
-			}
 
-		}
-		charIdx[string(b)] = i
-	}
-
-	// edge case:
-	// triple chars
 	for i := 2; i < len(str); i++ {
-		if str[i-2] == str[i-1] && str[i-1] == str[i] {
+		if str[i-2] == str[i] {
 			return true
 		}
 	}
