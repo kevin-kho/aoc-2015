@@ -83,37 +83,35 @@ func parseLine(line string) (*Command, error) {
 	return &cmd, nil
 }
 
-func operateLightsPartOne(commands []Command, grid [][]int) {
-	for _, cmd := range commands {
-
-		// For all Commands, they follow these rules
-		// (cmd.Start.X <= cmd.End.X) && (cmd.Start.Y <= cmd.End.Y)
-		// Build a rectangle
-
-		for x := cmd.Start.X; x < cmd.End.X+1; x++ {
-			for y := cmd.Start.Y; y < cmd.End.Y+1; y++ {
-
-				originalValue := grid[y][x]
-				var newValue int
-				switch cmd.Operation {
-				case "ON":
-					newValue = 1
-				case "OFF":
-					newValue = 0
-				default:
-					newValue = originalValue ^ 1
-				}
-
-				grid[y][x] = newValue
-
-			}
-
-		}
-
+func lightStrategyPartOne(cmd Command, originalValue int) int {
+	var newValue int
+	switch cmd.Operation {
+	case "ON":
+		newValue = 1
+	case "OFF":
+		newValue = 0
+	default:
+		newValue = originalValue ^ 1
 	}
+
+	return newValue
 }
 
-func operateLightsPartTwo(commands []Command, grid [][]int) {
+func lightStrategyPartTwo(cmd Command, originalValue int) int {
+	var newValue int = originalValue
+	switch cmd.Operation {
+	case "ON":
+		newValue++
+	case "OFF":
+		newValue--
+		newValue = max(0, newValue)
+	default:
+		newValue += 2
+	}
+	return newValue
+}
+
+func operateLights(commands []Command, grid [][]int, strategy func(cmd Command, originalValue int) int) {
 	for _, cmd := range commands {
 
 		// For all Commands, they follow these rules
@@ -122,27 +120,12 @@ func operateLightsPartTwo(commands []Command, grid [][]int) {
 
 		for x := cmd.Start.X; x < cmd.End.X+1; x++ {
 			for y := cmd.Start.Y; y < cmd.End.Y+1; y++ {
-
-				originalValue := grid[y][x]
-				var newValue int = originalValue
-				switch cmd.Operation {
-				case "ON":
-					newValue++
-				case "OFF":
-					newValue--
-					newValue = max(0, newValue)
-				default:
-					newValue += 2
-				}
-
+				val := grid[y][x]
+				newValue := strategy(cmd, val)
 				grid[y][x] = newValue
-
 			}
-
 		}
-
 	}
-
 }
 
 func countLights(grid [][]int) int {
@@ -183,11 +166,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	operateLightsPartOne(cmds, partOneGrid)
+	operateLights(cmds, partOneGrid, lightStrategyPartOne)
 	litLightPartOne := countLights(partOneGrid)
 	fmt.Println(litLightPartOne)
 
-	operateLightsPartTwo(cmds, partTwoGrid)
+	operateLights(cmds, partTwoGrid, lightStrategyPartTwo)
 	litLightsPartTwo := countLights(partTwoGrid)
 	fmt.Println(litLightsPartTwo)
 
