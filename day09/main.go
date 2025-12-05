@@ -144,7 +144,7 @@ func solveDijkstra(adj map[string][]Edge, start string) int {
 
 }
 
-func solveDfs(adj map[string][]Edge, start string) int {
+func solveDfsShortest(adj map[string][]Edge, start string) int {
 
 	res := math.MaxInt
 	seen := make(map[string]bool)
@@ -172,6 +172,33 @@ func solveDfs(adj map[string][]Edge, start string) int {
 
 }
 
+func solveDfsLongest(adj map[string][]Edge, start string) int {
+	res := math.MinInt
+	seen := make(map[string]bool)
+
+	var dfs func(currPos string, currVal int)
+	dfs = func(currPos string, currVal int) {
+		// exit condition: we seen the city before
+		if seen[currPos] {
+			return
+		}
+
+		seen[currPos] = true
+		if len(seen) == len(adj) {
+			res = max(res, currVal)
+		}
+
+		for _, dst := range adj[currPos] {
+			dfs(dst.Destination, currVal+dst.Weight)
+		}
+		delete(seen, currPos)
+	}
+	dfs(start, 0)
+
+	return res
+
+}
+
 func main() {
 
 	// filePath := "./inputExample.txt"
@@ -186,10 +213,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	res := math.MaxInt
+	shortest := math.MaxInt
+	longest := math.MinInt
 	for k := range adj {
-		res = min(res, solveDfs(adj, k))
+		shortest = min(shortest, solveDfsShortest(adj, k))
+		longest = max(longest, solveDfsLongest(adj, k))
 	}
-	fmt.Println(res)
+	fmt.Println(shortest)
+	fmt.Println(longest)
 
 }
