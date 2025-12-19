@@ -103,6 +103,14 @@ func calcIngredientValue(in []Ingredient) int {
 
 }
 
+func calculateCalories(ingred []Ingredient) int {
+	var calories int
+	for _, in := range ingred {
+		calories += in.Calories
+	}
+	return calories
+}
+
 func solvePartOne(ingreds []Ingredient) int {
 
 	var res int
@@ -132,6 +140,34 @@ func solvePartOne(ingreds []Ingredient) int {
 
 }
 
+func solvePartTwo(ingreds []Ingredient) int {
+	var res int
+	var recurse func(i int, curr []Ingredient)
+	recurse = func(i int, curr []Ingredient) {
+		// case: we have 100 ingredients
+		if len(curr) == 100 {
+			if calculateCalories(curr) == 500 {
+				res = max(res, calcIngredientValue(curr))
+			}
+			return
+		}
+
+		// case: out of bounds
+		if !(i < len(ingreds)) {
+			return
+		}
+
+		// take
+		recurse(i, append(curr, ingreds[i]))
+
+		// no take
+		recurse(i+1, slices.Clone(curr))
+	}
+	recurse(0, []Ingredient{})
+
+	return res
+}
+
 func main() {
 	filePath := "./inputExample.txt"
 	filePath = "./input.txt"
@@ -149,5 +185,8 @@ func main() {
 
 	res := solvePartOne(ingredients)
 	fmt.Println(res)
+
+	res2 := solvePartTwo(ingredients)
+	fmt.Println(res2)
 
 }
