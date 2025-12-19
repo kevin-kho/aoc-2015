@@ -78,6 +78,30 @@ func parseIngredients(data []byte) ([]Ingredient, error) {
 
 }
 
+func calcIngredientValue(in []Ingredient) int {
+	var capacity int
+	var durability int
+	var flavor int
+	var texture int
+
+	// Ignore calories for now
+
+	for _, i := range in {
+		capacity += i.Capacity
+		durability += i.Durability
+		flavor += i.Flavor
+		texture += i.Texture
+	}
+
+	capacity = max(0, capacity)
+	durability = max(0, durability)
+	flavor = max(0, flavor)
+	texture = max(0, texture)
+
+	return capacity * durability * flavor * texture
+
+}
+
 func main() {
 	filePath := "./inputExample.txt"
 	data, err := common.ReadInput(filePath)
