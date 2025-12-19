@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"slices"
 )
 
 type Dir struct {
@@ -40,7 +41,7 @@ func checkNeighbors(grid [][]byte, x, y int) int {
 			continue
 		}
 
-		if grid[newY][newX] == 46 {
+		if grid[newY][newX] == 35 {
 			count++
 		}
 
@@ -48,7 +49,23 @@ func checkNeighbors(grid [][]byte, x, y int) int {
 	return count
 }
 
-func getNextState(grid [][]byte, x, y int) byte {
+func getNextState(grid [][]byte) [][]byte {
+	var newGrid [][]byte
+	for _, row := range grid {
+		newGrid = append(newGrid, slices.Clone(row))
+	}
+
+	for y, row := range grid {
+		for x := range row {
+			newGrid[y][x] = toggleLight(grid, x, y)
+		}
+	}
+
+	return newGrid
+
+}
+
+func toggleLight(grid [][]byte, x, y int) byte {
 	onNeighbors := checkNeighbors(grid, x, y)
 
 	// case: on
@@ -88,6 +105,11 @@ func main() {
 	data = common.TrimNewLineSuffix(data)
 
 	grid := getGrid(data)
-	fmt.Println(len(grid[0]))
+
+	for range 100 {
+		grid = getNextState(grid)
+	}
+	res := countLightsOn(grid)
+	fmt.Println(res)
 
 }
