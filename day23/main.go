@@ -58,8 +58,9 @@ func CreateInstructions(data []byte) ([]Instruction, error) {
 	return res, nil
 }
 
-func SolvePartOne(instructions []Instruction) int {
+func Solve(instructions []Instruction, start int) int {
 	reg := make(map[string]int)
+	reg["a"] = start
 	var i int
 	for i < len(instructions) {
 		in := instructions[i]
@@ -84,7 +85,6 @@ func SolvePartOne(instructions []Instruction) int {
 				i += in.Offset
 				continue
 			}
-
 		}
 		i++
 	}
@@ -103,6 +103,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	res := SolvePartOne(in)
+
+	res := Solve(in, 0)
 	fmt.Println(res)
+
+	res2 := Solve(in, 1)
+	fmt.Println(res2)
 }
