@@ -110,7 +110,7 @@ func commandShift(entry []string, wire map[string]uint16) {
 
 func parseData(data []byte) map[string]uint16 {
 	wire := make(map[string]uint16)
-	for entry := range bytes.SplitSeq(data, []byte{10}) {
+	for entry := range bytes.SplitSeq(data, []byte{'\n'}) {
 
 		entryStrArr := strings.Split(string(entry), " ")
 		switch len(entryStrArr) {

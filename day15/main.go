@@ -24,7 +24,7 @@ func parseIngredients(data []byte) ([]Ingredient, error) {
 
 	var res []Ingredient
 
-	for entry := range bytes.SplitSeq(data, []byte{10}) {
+	for entry := range bytes.SplitSeq(data, []byte{'\n'}) {
 
 		entryStr := strings.Split(string(entry), " ")
 

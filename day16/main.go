@@ -28,7 +28,7 @@ func createSues(data []byte) ([]Sue, error) {
 
 	var sues []Sue
 
-	for entry := range bytes.SplitSeq(data, []byte{10}) {
+	for entry := range bytes.SplitSeq(data, []byte{'\n'}) {
 
 		var number int
 		var children *int

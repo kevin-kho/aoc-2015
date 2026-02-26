@@ -24,7 +24,7 @@ type Command struct {
 func parseInstructions(byteArr []byte) ([]Command, error) {
 
 	// remove trailing whitespace at end of file
-	byteArr, _ = bytes.CutSuffix(byteArr, []byte{10})
+	byteArr, _ = bytes.CutSuffix(byteArr, []byte{'\n'})
 
 	lines := strings.SplitSeq(string(byteArr), "\n")
 

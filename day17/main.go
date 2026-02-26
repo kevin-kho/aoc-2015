@@ -13,7 +13,7 @@ import (
 func getContainers(data []byte) ([]int, error) {
 	var res []int
 
-	for entry := range bytes.SplitSeq(data, []byte{10}) {
+	for entry := range bytes.SplitSeq(data, []byte{'\n'}) {
 
 		size, err := strconv.Atoi(string(entry))
 		if err != nil {

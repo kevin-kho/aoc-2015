@@ -16,9 +16,9 @@ func solve(directions []byte) int {
 	for _, dir := range directions {
 
 		switch dir {
-		case 40:
+		case '(':
 			floor++
-		case 41:
+		case ')':
 			floor--
 		default:
 			continue
@@ -35,9 +35,9 @@ func solveBasement(directions []byte) int {
 	for i, dir := range directions {
 
 		switch dir {
-		case 40:
+		case '(':
 			floor++
-		case 41:
+		case ')':
 			floor--
 		default:
 			continue

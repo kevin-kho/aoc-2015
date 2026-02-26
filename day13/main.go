@@ -22,7 +22,7 @@ func createEntries(data []byte) ([]Entry, error) {
 
 	var res []Entry
 
-	for entry := range bytes.SplitSeq(data, []byte{10}) {
+	for entry := range bytes.SplitSeq(data, []byte{'\n'}) {
 		entryStr := strings.Split(string(entry), " ")
 
 		subject := entryStr[0]

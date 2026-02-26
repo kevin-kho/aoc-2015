@@ -13,7 +13,7 @@ import (
 
 func parseData(data []byte) (map[string][]string, string) {
 
-	entries := bytes.SplitSeq(data, []byte{10})
+	entries := bytes.SplitSeq(data, []byte{'\n'})
 
 	// Build substition map
 	substitions := make(map[string][]string)

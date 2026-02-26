@@ -17,7 +17,7 @@ func getNumbers(data []byte) []int {
 		if string(char) == "-" {
 			negative = true
 		} else if unicode.IsDigit(char) {
-			num = num*10 + int(char-48)
+			num = num*10 + int(char-'0')
 		} else if num != 0 {
 			if negative {
 				num = -num

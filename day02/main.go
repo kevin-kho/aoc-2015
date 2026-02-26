@@ -43,7 +43,7 @@ func getDimensionStructs(byteArr []byte) ([]dimensions, error) {
 
 	var d []dimensions
 
-	for b := range bytes.SplitSeq(byteArr, []byte{10}) {
+	for b := range bytes.SplitSeq(byteArr, []byte{'\n'}) {
 		entry := string(b)
 		split := strings.Split(entry, "x")
 		if len(split) == 3 {

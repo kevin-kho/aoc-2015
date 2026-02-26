@@ -41,8 +41,8 @@ func buildAdjacencyMatrix(data []byte) (map[string][]Edge, error) {
 	adj := make(map[string][]Edge)
 
 	// trim whitespace
-	trimmedNewLine, _ := bytes.CutSuffix(data, []byte{10})
-	directions := bytes.SplitSeq(trimmedNewLine, []byte{10})
+	trimmedNewLine, _ := bytes.CutSuffix(data, []byte{'\n'})
+	directions := bytes.SplitSeq(trimmedNewLine, []byte{'\n'})
 	for d := range directions {
 		strs := strings.Split(string(d), " ")
 

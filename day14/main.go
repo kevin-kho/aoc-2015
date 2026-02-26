@@ -21,7 +21,7 @@ func createReindeers(data []byte) ([]Reindeer, error) {
 
 	var res []Reindeer
 
-	for entry := range bytes.SplitSeq(data, []byte{10}) {
+	for entry := range bytes.SplitSeq(data, []byte{'\n'}) {
 		entryStr := strings.Split(string(entry), " ")
 
 		name := entryStr[0]

@@ -15,7 +15,7 @@ type Dir struct {
 }
 
 func getGrid(data []byte) [][]byte {
-	return bytes.Split(data, []byte{10})
+	return bytes.Split(data, []byte{'\n'})
 }
 
 func checkNeighbors(grid [][]byte, x, y int) int {
@@ -42,7 +42,7 @@ func checkNeighbors(grid [][]byte, x, y int) int {
 			continue
 		}
 
-		if grid[newY][newX] == 35 {
+		if grid[newY][newX] == '#' {
 			count++
 		}
 
@@ -85,18 +85,18 @@ func toggleLight(grid [][]byte, x, y int) byte {
 	onNeighbors := checkNeighbors(grid, x, y)
 
 	// case: on
-	if grid[y][x] == 35 {
+	if grid[y][x] == '#' {
 		if onNeighbors == 2 || onNeighbors == 3 {
-			return 35 // stay on
+			return '#' // stay on
 		}
-		return 46 // turn off
+		return '.' // turn off
 	}
 
 	// case: off
 	if onNeighbors == 3 {
-		return 35 // turn on
+		return '#' // turn on
 	}
-	return 46
+	return '.'
 
 }
 
@@ -114,25 +114,25 @@ func toggleNonCornerLight(grid [][]byte, x, y int) byte {
 	}
 
 	// case: on
-	if grid[y][x] == 35 {
+	if grid[y][x] == '#' {
 		if onNeighbors == 2 || onNeighbors == 3 {
-			return 35 // stay on
+			return '#' // stay on
 		}
-		return 46 // turn off
+		return '.' // turn off
 	}
 
 	// case: off
 	if onNeighbors == 3 {
-		return 35 // turn on
+		return '#' // turn on
 	}
-	return 46
+	return '.'
 }
 
 func countLightsOn(grid [][]byte) int {
 	var count int
 	for _, row := range grid {
 		for _, lt := range row {
-			if lt == 35 {
+			if lt == '#' {
 				count++
 			}
 		}

@@ -10,13 +10,13 @@ import (
 func getDelta(b byte) [2]int {
 	var delta [2]int
 	switch b {
-	case 94: // ^
+	case '^': // ^
 		delta = [2]int{0, -1}
-	case 118: // v
+	case 'v': // v
 		delta = [2]int{0, 1}
-	case 62: // >
+	case '>': // >
 		delta = [2]int{1, 0}
-	case 60: // <
+	case '<': // <
 		delta = [2]int{-1, 0}
 	default:
 		delta = [2]int{0, 0}
